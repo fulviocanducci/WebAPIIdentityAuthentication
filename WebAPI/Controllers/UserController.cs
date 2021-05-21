@@ -27,7 +27,13 @@ namespace WebAPI.Controllers
             return Ok(await UserManager.Users.Select(x => new UserModel(x.Name, x.Email)).ToListAsync());
         }
 
-        [HttpGet("{email}")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserModel>> Get(int id)
+        {            
+            return Ok(await UserManager.Users.Where(x => x.Id == id).Select(x => new UserModel(x.Name, x.Email)).FirstOrDefaultAsync());
+        }
+
+        [HttpGet("email/{email}")]
         public async Task<ActionResult<UserModel>> Get(string email)
         {
             if (string.IsNullOrEmpty(email))
