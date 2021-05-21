@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using WebAPI.Models;
 
@@ -31,11 +32,17 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Options
             services.Configure<RouteOptions>(options =>
             {
                 options.LowercaseUrls = true;
                 options.LowercaseQueryStrings = true;
             });
+            services.Configure<JsonOptions>(options =>
+            {
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            });
+            #endregion
 
             #region Cors
             services.AddCors();

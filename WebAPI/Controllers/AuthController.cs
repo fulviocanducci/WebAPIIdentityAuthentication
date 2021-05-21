@@ -13,6 +13,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class AuthController : ControllerBase
     {
         public JwtConfigurationModel JwtConfigurationModel { get; }
@@ -42,24 +43,7 @@ namespace WebAPI.Controllers
             catch (Exception)
             {
                 throw;
-            }
-            //await RoleManager.CreateAsync(new ApplicationRole() { Name = "ADMINISTRATOR" });
-            //await RoleManager.CreateAsync(new ApplicationRole() { Name = "GENERAL" });
-            //var userExists = await UserManager.FindByNameAsync("fulviocanducci@hotmail.com");
-            //if (userExists == null)
-            //{
-            //    ApplicationUser user = new ApplicationUser()
-            //    {
-            //        Email = "fulviocanducci@hotmail.com",
-            //        SecurityStamp = Guid.NewGuid().ToString(),
-            //        UserName = "fulviocanducci@hotmail.com",
-            //        Name = "Fúlvio Cezar Canducci Dias"
-            //    };
-            //    IdentityResult result = await UserManager.CreateAsync(user, "Ab123456@");
-            //    await UserManager.AddToRolesAsync(user, new[] { "ADMINISTRATOR" , "GENERAL" });
-            //    return Ok(new { status = result.Succeeded });
-            //}
-            //return BadRequest();
+            }            
         }
 
         [HttpPost()]
@@ -81,8 +65,8 @@ namespace WebAPI.Controllers
                 JwtSecurityToken token = new(
                     audience: JwtConfigurationModel.ValidAudience,
                     issuer: JwtConfigurationModel.ValidIssuer,
-                    expires: DateTime.Now.AddHours(3),                    
-                    claims: authClaims, 
+                    expires: DateTime.Now.AddHours(3),
+                    claims: authClaims,
                     signingCredentials: new SigningCredentials(JwtConfigurationModel.IssuerSigningKey, SecurityAlgorithms.HmacSha256)
                 );
 
