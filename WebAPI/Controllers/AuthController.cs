@@ -68,20 +68,17 @@ namespace WebAPI.Controllers
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user != null && await UserManager.CheckPasswordAsync(user, model.Password))
             {
-                var userRoles = await UserManager.GetRolesAsync(user);
-
-                var authClaims = new List<Claim>
+                IList<string> userRoles = await UserManager.GetRolesAsync(user);
+                List<Claim> authClaims = new()
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
-
                 foreach (var userRole in userRoles)
                 {
                     authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                 }
-
-                JwtSecurityToken token = new JwtSecurityToken(
+                JwtSecurityToken token = new(
                     audience: JwtConfigurationModel.ValidAudience,
                     issuer: JwtConfigurationModel.ValidIssuer,
                     expires: DateTime.Now.AddHours(3),                    
