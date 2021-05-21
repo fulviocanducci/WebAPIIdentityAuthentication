@@ -1,0 +1,1 @@
+https://dotnetdetail.net/asp-net-core-5-web-api-token-based-authentication-example-using-jwt/
